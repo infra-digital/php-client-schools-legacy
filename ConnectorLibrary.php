@@ -60,7 +60,7 @@ class ConnectorLibrary
     {
         return Constants::URI_PROTOCOL . '://'
             . $username . ':' . $password . '@'
-            . (($env === Constants::DEV_ENV) ? Constants::URI_DOMAIN_DEV : Constants::URI_DOMAIN_PROD) . DIRECTORY_SEPARATOR
+            . (($env === Constants::DEV_ENV) ? Constants::URI_DOMAIN_DEV : Constants::URI_DOMAIN_PROD) . '/'
             . $path
             . (( ! empty($query)) ? '?' . http_build_query($query) : '');
     }

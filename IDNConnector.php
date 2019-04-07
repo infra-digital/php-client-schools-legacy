@@ -230,6 +230,52 @@ class IDNConnector extends ConnectorLibrary
     }
 
     /**
+     * Used to delete bill component
+     *
+     * @param $deleteBy
+     * @param array $billComponentId
+     * @param string $transferRef
+     * @return mixed
+     */
+    public function deleteBillComponent($deleteBy, array $billComponentId, $transferRef = '')
+    {
+        $content = array(
+            'update_by' => $deleteBy,
+            'bill_component_id' => $billComponentId,
+            'transfer_ref' => $transferRef,
+        );
+
+        return $this->curlExec(
+            Constants::POST_METHOD,
+            $this->buildApiURI($this->username, $this->password, 'bill_component/delete', array(), $this->env),
+            $content);
+    }
+
+    /**
+     * Used to update payment status of the bill component
+     *
+     * @param $billerCode
+     * @param $billKey
+     * @param $billerRefNumber
+     * @param array $billComponentList
+     * @return mixed
+     */
+    public function updateBillComponentPaymentStatus($billerCode, $billKey, $billerRefNumber, array $billComponentList)
+    {
+        $content = array(
+            'biller_code' => $billerCode,
+            'bill_key' => $billKey,
+            'biller_ref_number' => $billerRefNumber,
+            'bill_component_list' => $billComponentList,
+        );
+
+        return $this->curlExec(
+            Constants::POST_METHOD,
+            $this->buildApiURI($this->username, $this->password, 'bill_component/pay', array(), $this->env),
+            $content);
+    }
+
+    /**
      * Get student data
      *
      * @param string $name
