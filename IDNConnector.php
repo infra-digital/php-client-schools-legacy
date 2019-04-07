@@ -188,6 +188,48 @@ class IDNConnector extends ConnectorLibrary
     }
 
     /**
+     * Update bill component data to API
+     *
+     * @param $billComponentID
+     * @param $lastUpdateBy
+     * @param $billerCode
+     * @param $billKey
+     * @param $accountCode
+     * @param $billComponentName
+     * @param $amount
+     * @param $expiryDate
+     * @param $dueDate
+     * @param $activeDate
+     * @param $penaltyAmount
+     * @param $batchId
+     * @param string $notes
+     * @return mixed
+     */
+    public function updateBillComponent($billComponentID, $lastUpdateBy, $billerCode, $billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate, $penaltyAmount, $batchId, $notes = '')
+    {
+        $content = array(
+            'id' => $billComponentID,
+            'last_update_by' => $lastUpdateBy,
+            'biller_code' =>  $billerCode,
+            'bill_key' => $billKey,
+            'account_code' => $accountCode,
+            'bill_component_name' => $billComponentName,
+            'expiry_date' => $this->convertDatetimeToIso($expiryDate),
+            'due_date' => $this->convertDatetimeToIso($dueDate),
+            'amount' => $amount,
+            'active_date' => $this->convertDatetimeToIso($activeDate),
+            'penalty_amount' => $penaltyAmount,
+            'batch_id' => $batchId,
+            'notes' => $notes,
+        );
+
+        return $this->curlExec(
+            Constants::PUT_METHOD,
+            $this->buildApiURI($this->username, $this->password, 'bill_component', array(), $this->env),
+            $content);
+    }
+
+    /**
      * Get student data
      *
      * @param string $name

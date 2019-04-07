@@ -26,8 +26,8 @@ $idnConnector->devMode(); // Use this method to initiated the dev mode. This wil
  *
  * Here is the example :
  */
-$response = $idnConnector->createStudent('Test User', 'testBillKey0123','0987612345', 'use.only@valid.domain', 'This is test to create user');
-echo "<br>";
+$response = $idnConnector->createStudent('Test User', '0001','0987612345', 'use.only@valid.domain', 'This is test to create user');
+echo'Create Student : <br>';var_dump($response);echo "<br><br>";
 
 
 /*
@@ -79,8 +79,7 @@ foreach ($exampleStudentDataFromMySQL as $val) {
  * Remember we only need to call createStudents() once from the outside of iteration (foreach)
  */
 $response = $idnConnector->createStudents();
-var_dump($response);
-echo "<br>";
+echo'Create Student Batch : <br>';var_dump($response);echo "<br><br>";
 
 
 /*
@@ -100,29 +99,29 @@ echo "<br>";
 $exampleBillComponentDataFromMySQL = array(
     array(
         'bill_key' => '0001',
-        'account_code' => '0001',
+        'account_code' => 'MANDIRI',
         'bill_component_name' => 'First bill component',
         'expiry_date' => '20190520',
         'due_date' => '20190520',
-        'amount' => '100000',
+        'amount' => 100000,
         'active_date' => '20180520',
-        'penalty_amount' => '0',
+        'penalty_amount' => 0,
         'notes' => '',
     ),
     array(
         'bill_key' => '0002',
-        'account_code' => '0002',
+        'account_code' => 'MANDIRI',
         'bill_component_name' => 'Second bill component',
         'expiry_date' => '20190520',
         'due_date' => '20190520',
         'amount' => 200000,
         'active_date' => '20180520',
-        'penalty_amount' => '0',
+        'penalty_amount' => 0,
         'notes' => '',
     ),
     array(
         'bill_key' => '0003',
-        'account_code' => '0003',
+        'account_code' => 'MANDIRI',
         'bill_component_name' => 'Third bill component',
         'expiry_date' => '20190520',
         'due_date' => '20190520',
@@ -169,7 +168,7 @@ foreach ($exampleBillComponentDataFromMySQL as $val) {
  * Remember we only need to call addBillComponents() once from the outside of iteration (foreach)
  */
 $response = $idnConnector->addBillComponents();
-echo "<br>";
+echo'Add Bill Component : <br>';print_r($response);echo "<br><br>";
 
 
 /*
@@ -182,8 +181,7 @@ echo "<br>";
  * $limit: Limit Result yang akan di return. Default 50 siswa. Maximal 1500 siswa
  */
 $response = $idnConnector->getStudents('Test User', '', 0, 5);
-var_dump($response);
-echo "<br>";
+echo'Get Student : <br>';var_dump($response);echo "<br><br>";
 
 /*
  * Search for bill(s)
@@ -195,7 +193,8 @@ echo "<br>";
  * If there is no search criteria or query parameters, then by default the system will return 50 latest bills.
  */
 $response = $idnConnector->getBills();// without parameters (return 50 latest bills)
-var_dump($response);
+echo'Get Bills without parameter: <br>';var_dump($response);echo "<br><br>";
+
 /*
  * Available parameters
  *
@@ -223,8 +222,7 @@ $parameters = array(
     'notes' => '999'
 );
 $response = $idnConnector->getBills($parameters);// with parameters
-var_dump($response);
-echo "<br>";
+echo'Get Student with parameter: <br>';var_dump($response);echo "<br><br>";
 
 /*
  * Get a Students Bills
@@ -249,4 +247,39 @@ echo "<br>";
 $nis = "0001";
 $parameters = array();
 $studentBills = $idnConnector->getStudentBills($nis, $parameters);
+echo'Get Student bill: <br>';var_dump($studentBills);echo '<br><br>';
+$studentBillsData = $studentBills['data'];
+
+/*
+ * Here we use updateBillComponent to update component data then commit it to the IDN API
+ * Remember the argument passing to the method are sequenced :
+ * 1. $billKey
+ * 2. $lastUpdateBy
+ * 3. $billerCode
+ * 4. $billKey
+ * 2. $accountCode
+ * 3. $billComponentName
+ * 4. $amount
+ * 5. $expiryDate
+ * 6. $dueDate
+ * 7. $activeDate
+ * 8. $penaltyAmount
+ * 9. $notes
+ */
+$update = $idnConnector->updateBillComponent(
+    $studentBillsData[0]['bill_component_id'],
+    'Automatic-Updater',
+    $username,
+    '0001',
+    'MANDIRI',
+    'Updated bill component',
+    2000000,
+    '20190501',
+    '20190501',
+    '20190401',
+    0,
+    $studentBillsData[0]['bill_component_id'],
+    ''
+);
+echo'Update Bill Component: <br>';var_dump($update);echo '<br><br>';
 
