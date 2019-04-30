@@ -1,6 +1,6 @@
 <?php
 namespace IDNConnector;
-require_once 'ConnectorLibrary.php';
+require_once dirname(__FILE__) . '/ConnectorLibrary.php';
 
 /**
  * Main Connector class

@@ -1,6 +1,6 @@
 <?php
 namespace IDNConnector;
-require_once 'Constants.php';
+require_once dirname(__FILE__) . '/Constants.php';
 
 /**
  * Connector library class
