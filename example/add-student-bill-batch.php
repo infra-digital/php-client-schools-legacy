@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '../IDNConnector.php'; // include the main class file
+require_once dirname(__FILE__) . '/../IDNConnector.php'; // include the main class file
 use IDNConnector\IDNConnector; // since we used namespace you should call the class using "use" or call it directly (new IDNConnector\IDNConnector($user, $pass))
 
 $username = '10014';
