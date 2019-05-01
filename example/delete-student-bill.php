@@ -14,12 +14,15 @@ echo'Get Student bill: <br>';var_dump($studentBills);echo '<br><br>';
 
 $studentBillsData = $studentBills['data'];
 
-$updatePaymentStatus = $idnConnector->updateBillComponentPaymentStatus(
-    $username,
-    '0001',
-    '',
+/*
+ * Here we use deleteBillComponent to delete specific bill component using they bill_component_id
+ * The list is array, so you can use it batch
+ */
+$delete = $idnConnector->deleteBillComponent(
+    'DeleteBy-PHP-Example-Delete',
     array(
-        $studentBillsData[0]['bill_component_id']
-    )
+        $studentBillsData[1]['bill_component_id']
+    ),
+    ''
 );
-echo'Update Bill Component Payment Status: <br>';var_dump($updatePaymentStatus);echo '<br><br>';
+echo'Delete Bill Component: <br>';var_dump($delete);echo '<br><br>';
