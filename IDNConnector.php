@@ -337,4 +337,19 @@ class IDNConnector extends ConnectorLibrary
             $this->buildApiURI($this->username, $this->password, 'bill_component/search/bill', $query, $this->env),
             '');
     }
+
+    /**
+     * Get a Students Bills
+     *
+     * @param $nis
+     * @param array $query
+     * @return mixed
+     */
+    public function getBillByID($id)
+    {
+        return $this->curlExec(
+            Constants::GET_METHOD,
+            $this->buildApiURI($this->username, $this->password, 'bill_component/get/' . $id, array(), $this->env),
+            '');
+    }
 }

@@ -27,7 +27,6 @@ $idnConnector->devMode(); // Use this method to initiated the dev mode. This wil
  *
  * All of the parameters is optional, but you can include some or all of them (make it fit with your PHP project)
  */
-$nis = "0001";
 $parameters = array();
-$studentBills = $idnConnector->getStudentBills($nis, $parameters);
+$studentBills = $idnConnector->getBillByID("");
 echo'Get Student bill: <br>';var_dump($studentBills);echo '<br><br>';
