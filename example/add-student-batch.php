@@ -21,10 +21,10 @@ $idnConnector->devMode(); // Use this method to initiated the dev mode. This wil
  * Here is the example :
  */
 $exampleStudentDataFromMySQL = array(
-    array('name' => 'Test First Student', 'bill_key_value' => '0001', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user'),
-    array('name' => 'Test Second Student', 'bill_key_value' => '0002', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user'),
-    array('name' => 'Test Third Student', 'bill_key_value' => '0003', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user'),
-    array('name' => 'Test Fourth Student', 'bill_key_value' => '0004', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user'),
+    array('name' => 'Test First Student', 'bill_key_value' => '0001', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user', 'branch_code' => ''),
+    array('name' => 'Test Second Student', 'bill_key_value' => '0002', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user', 'branch_code' => ''),
+    array('name' => 'Test Third Student', 'bill_key_value' => '0003', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user', 'branch_code' => ''),
+    array('name' => 'Test Fourth Student', 'bill_key_value' => '0004', 'phone' => '0987612345', 'email' => 'use.only@valid.domain', 'description' => 'This is test to create user', 'branch_code' => ''),
 );
 /*
  * Now we have four list of array to simulate the result taken from database
@@ -42,6 +42,7 @@ foreach ($exampleStudentDataFromMySQL as $val) {
      * 3. $phone
      * 4. $email
      * 5. $description
+     * 6. $branch_code
      */
     $idnConnector->appendStudentData(
         $val['name'],
@@ -49,6 +50,7 @@ foreach ($exampleStudentDataFromMySQL as $val) {
         $val['phone'],
         $val['email'],
         $val['description']
+        //$val['branch_code']
     );
 }
 /*

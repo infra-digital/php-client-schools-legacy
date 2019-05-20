@@ -47,14 +47,15 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return $this
      */
-    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '')
+    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
     {
         $this->studentsData[] = array(
-            'name' => $name,
-            'bill_key_value' => $billKeyValue,
-            'phone' => $phone,
-            'email' => $email,
-            'description' => $description,
+            'name'              => $name,
+            'bill_key_value'    => $billKeyValue,
+            'phone'             => $phone,
+            'email'             => $email,
+            'description'       => $description,
+            'branch_code'       => $branch_code,
         );
 
         return $this;
@@ -93,9 +94,9 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return mixed
      */
-    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '')
+    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
     {
-        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description);
+        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description, $branch_code);
         $content = $this->studentsData[0];
         $this->studentsData = array();
 
@@ -115,14 +116,15 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return mixed
      */
-    public function updateStudent($name, $billKeyValue, $phone = '', $email = '', $description = '')
+    public function updateStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
     {
         $content = array(
-            'name' => $name,
-            'bill_key_value' => $billKeyValue,
-            'phone' => $phone,
-            'email' => $email,
-            'description' => $description,
+            'name'              => $name,
+            'bill_key_value'    => $billKeyValue,
+            'phone'             => $phone,
+            'email'             => $email,
+            'description'       => $description,
+            'branch_code'       => $branch_code,
         );
 
         return $this->curlExec(
@@ -145,18 +147,19 @@ class IDNConnector extends ConnectorLibrary
      * @param string $notes
      * @return $this
      */
-    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '')
+    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '', $branch_code = '')
     {
         $this->billComponentData[] = array(
-            'bill_key' => $billKey,
-            'account_code' => $accountCode,
-            'bill_component_name' => $billComponentName,
-            'expiry_date' => $this->convertDatetimeToIso($expiryDate),
-            'due_date' => $this->convertDatetimeToIso($dueDate),
-            'amount' => $amount,
-            'active_date' => $this->convertDatetimeToIso($activeDate),
-            'penalty_amount' => $penaltyAmount,
-            'notes' => $notes,
+            'bill_key'              => $billKey,
+            'account_code'          => $accountCode,
+            'bill_component_name'   => $billComponentName,
+            'expiry_date'           => $this->convertDatetimeToIso($expiryDate),
+            'due_date'              => $this->convertDatetimeToIso($dueDate),
+            'amount'                => $amount,
+            'active_date'           => $this->convertDatetimeToIso($activeDate),
+            'penalty_amount'        => $penaltyAmount,
+            'notes'                 => $notes,
+            'branch_code'           => $branch_code,
         );
 
         return $this;
@@ -205,22 +208,23 @@ class IDNConnector extends ConnectorLibrary
      * @param string $notes
      * @return mixed
      */
-    public function updateBillComponent($billComponentID, $lastUpdateBy, $billerCode, $billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate, $penaltyAmount, $batchId, $notes = '')
+    public function updateBillComponent($billComponentID, $lastUpdateBy, $billerCode, $billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate, $penaltyAmount, $batchId, $notes = '', $branch_code= '')
     {
         $content = array(
-            'id' => $billComponentID,
-            'last_update_by' => $lastUpdateBy,
-            'biller_code' =>  $billerCode,
-            'bill_key' => $billKey,
-            'account_code' => $accountCode,
-            'bill_component_name' => $billComponentName,
-            'expiry_date' => $this->convertDatetimeToIso($expiryDate),
-            'due_date' => $this->convertDatetimeToIso($dueDate),
-            'amount' => $amount,
-            'active_date' => $this->convertDatetimeToIso($activeDate),
-            'penalty_amount' => $penaltyAmount,
-            'batch_id' => $batchId,
-            'notes' => $notes,
+            'id'                    => $billComponentID,
+            'last_update_by'        => $lastUpdateBy,
+            'biller_code'           =>  $billerCode,
+            'bill_key'              => $billKey,
+            'account_code'          => $accountCode,
+            'bill_component_name'   => $billComponentName,
+            'expiry_date'           => $this->convertDatetimeToIso($expiryDate),
+            'due_date'              => $this->convertDatetimeToIso($dueDate),
+            'amount'                => $amount,
+            'active_date'           => $this->convertDatetimeToIso($activeDate),
+            'penalty_amount'        => $penaltyAmount,
+            'batch_id'              => $batchId,
+            'notes'                 => $notes,
+            'branch_code'           => $branch_code,
         );
 
         return $this->curlExec(
@@ -240,9 +244,9 @@ class IDNConnector extends ConnectorLibrary
     public function deleteBillComponent($deleteBy, array $billComponentId, $transferRef = '')
     {
         $content = array(
-            'update_by' => $deleteBy,
+            'update_by'         => $deleteBy,
             'bill_component_id' => $billComponentId,
-            'transfer_ref' => $transferRef,
+            'transfer_ref'      => $transferRef,
         );
 
         return $this->curlExec(
@@ -263,10 +267,10 @@ class IDNConnector extends ConnectorLibrary
     public function updateBillComponentPaymentStatus($billerCode, $billKey, $billerRefNumber, array $billComponentList)
     {
         $content = array(
-            'biller_code' => $billerCode,
-            'bill_key' => $billKey,
-            'biller_ref_number' => $billerRefNumber,
-            'bill_component_list' => $billComponentList,
+            'biller_code'           => $billerCode,
+            'bill_key'              => $billKey,
+            'biller_ref_number'     => $billerRefNumber,
+            'bill_component_list'   => $billComponentList,
         );
 
         return $this->curlExec(

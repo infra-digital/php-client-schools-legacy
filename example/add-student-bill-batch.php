@@ -32,6 +32,7 @@ $exampleBillComponentDataFromMySQL = array(
         'active_date' => '20180520',
         'penalty_amount' => 0,
         'notes' => '',
+        //'branch_code' => '', //Uncomment this to use different branch code from $username
     ),
     array(
         'bill_key' => '0002',
@@ -43,6 +44,7 @@ $exampleBillComponentDataFromMySQL = array(
         'active_date' => '20180520',
         'penalty_amount' => 0,
         'notes' => '',
+        //'branch_code' => '', //Uncomment this to use different branch code from $username
     ),
     array(
         'bill_key' => '0003',
@@ -54,6 +56,7 @@ $exampleBillComponentDataFromMySQL = array(
         'active_date' => '20180520',
         'penalty_amount' => 0,
         'notes' => '',
+        //'branch_code' => '', //Uncomment this to use different branch code from $username
     ),
 );
 /*

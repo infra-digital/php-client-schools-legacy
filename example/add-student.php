@@ -20,6 +20,13 @@ $idnConnector->devMode(); // Use this method to initiated the dev mode. This wil
  *
  * Here is the example :
  */
-$response = $idnConnector->createStudent('Test User', '0001','0987612345', 'use.only@valid.domain', 'This is test to create user');
+$response = $idnConnector->createStudent(
+    'Test User',
+    '0001',
+    '0987612345',
+    'use.only@valid.domain',
+    'This is test to create user'
+    //'branch_code' //Uncomment this line to use difference branch code from $username
+);
 echo'Create Student : <br>';var_dump($response);echo "<br><br>";
 
