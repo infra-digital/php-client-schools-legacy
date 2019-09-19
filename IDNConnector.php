@@ -212,7 +212,7 @@ class IDNConnector extends ConnectorLibrary
     {
         $content = array(
             'id'                    => $billComponentID,
-            'last_update_by'        => $lastUpdateBy,
+            'last_update_by'        => sprintf("%s(%s)", $lastUpdateBy, $this->username),
             'biller_code'           =>  $billerCode,
             'bill_key'              => $billKey,
             'account_code'          => $accountCode,
@@ -244,7 +244,7 @@ class IDNConnector extends ConnectorLibrary
     public function deleteBillComponent($deleteBy, array $billComponentId, $transferRef = '')
     {
         $content = array(
-            'update_by'         => $deleteBy,
+            'update_by'         => sprintf("%s(%s)", $deleteBy, $this->username),
             'bill_component_id' => $billComponentId,
             'transfer_ref'      => $transferRef,
         );
