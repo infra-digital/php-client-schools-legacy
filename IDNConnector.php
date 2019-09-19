@@ -47,7 +47,7 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return $this
      */
-    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
+    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '', $created_by = '')
     {
         $this->studentsData[] = array(
             'name'              => $name,
@@ -56,6 +56,7 @@ class IDNConnector extends ConnectorLibrary
             'email'             => $email,
             'description'       => $description,
             'branch_code'       => $branch_code,
+            'created_by'        => sprintf("%s(%s)", $created_by, $this->username),
         );
 
         return $this;
@@ -72,12 +73,15 @@ class IDNConnector extends ConnectorLibrary
             return false;
         }
 
+        foreach ($this->studentsData as $key => $val) {
+            $this->studentsData[$key]['created_by'] = sprintf("(%s)", $this->username);
+        }
         $content = array(
             'bill_list' => $this->studentsData,
         );
 
         $this->studentsData = array();
-
+        var_dump($this->buildApiURI($this->username, $this->password, 'bill/batch', array(), $this->env));
         return $this->curlExec(
             Constants::POST_METHOD,
             $this->buildApiURI($this->username, $this->password, 'bill/batch', array(), $this->env),
@@ -94,9 +98,9 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return mixed
      */
-    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
+    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '', $created_by)
     {
-        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description, $branch_code);
+        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description, $branch_code, $created_by);
         $content = $this->studentsData[0];
         $this->studentsData = array();
 
@@ -147,7 +151,7 @@ class IDNConnector extends ConnectorLibrary
      * @param string $notes
      * @return $this
      */
-    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '', $branch_code = '')
+    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '', $branch_code = '', $created_by = '')
     {
         $this->billComponentData[] = array(
             'bill_key'              => $billKey,
@@ -160,6 +164,7 @@ class IDNConnector extends ConnectorLibrary
             'penalty_amount'        => $penaltyAmount,
             'notes'                 => $notes,
             'branch_code'           => $branch_code,
+            'created_by'            => sprintf("%s(%s)", $created_by, $this->username),
         );
 
         return $this;
@@ -212,7 +217,6 @@ class IDNConnector extends ConnectorLibrary
     {
         $content = array(
             'id'                    => $billComponentID,
-            'last_update_by'        => sprintf("%s(%s)", $lastUpdateBy, $this->username),
             'biller_code'           =>  $billerCode,
             'bill_key'              => $billKey,
             'account_code'          => $accountCode,
@@ -225,6 +229,7 @@ class IDNConnector extends ConnectorLibrary
             'batch_id'              => $batchId,
             'notes'                 => $notes,
             'branch_code'           => $branch_code,
+            'last_update_by'        => sprintf("%s(%s)", $lastUpdateBy, $this->username),
         );
 
         return $this->curlExec(
@@ -244,9 +249,9 @@ class IDNConnector extends ConnectorLibrary
     public function deleteBillComponent($deleteBy, array $billComponentId, $transferRef = '')
     {
         $content = array(
-            'update_by'         => sprintf("%s(%s)", $deleteBy, $this->username),
             'bill_component_id' => $billComponentId,
             'transfer_ref'      => $transferRef,
+            'update_by'         => sprintf("%s(%s)", $deleteBy, $this->username),
         );
 
         return $this->curlExec(
@@ -264,13 +269,14 @@ class IDNConnector extends ConnectorLibrary
      * @param array $billComponentList
      * @return mixed
      */
-    public function updateBillComponentPaymentStatus($billerCode, $billKey, $billerRefNumber, array $billComponentList)
+    public function updateBillComponentPaymentStatus($billerCode, $billKey, $billerRefNumber, array $billComponentList, $updatedBy)
     {
         $content = array(
             'biller_code'           => $billerCode,
             'bill_key'              => $billKey,
             'biller_ref_number'     => $billerRefNumber,
             'bill_component_list'   => $billComponentList,
+            'last_update_by'         => sprintf("%s(%s)", $updatedBy, $this->username),
         );
 
         return $this->curlExec(
