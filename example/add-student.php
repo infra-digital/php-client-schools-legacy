@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../IDNConnector.php'; // include the main cla
 use IDNConnector\IDNConnector; // since we used namespace you should call the class using "use" or call it directly (new IDNConnector\IDNConnector($user, $pass))
 
 $username = '90001';
-$password = 'f4298b856f4c';
+$password = '123';
 $idnConnector = new IDNConnector($username, $password); // Initiate the class and provide valid username and password IDNConnector($username, $password)
 $idnConnector->devMode(); // Use this method to initiated the dev mode. This will use IDN development API URI testclient.infradigital.io
 
