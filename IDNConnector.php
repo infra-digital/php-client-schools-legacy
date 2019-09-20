@@ -47,7 +47,7 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return $this
      */
-    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '', $created_by = '')
+    public function appendStudentData($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
     {
         $this->studentsData[] = array(
             'name'              => $name,
@@ -56,7 +56,7 @@ class IDNConnector extends ConnectorLibrary
             'email'             => $email,
             'description'       => $description,
             'branch_code'       => $branch_code,
-            'created_by'        => sprintf("%s(%s)", $created_by, $this->username),
+            'created_by'        => sprintf("(%s)", $this->username),
         );
 
         return $this;
@@ -98,9 +98,9 @@ class IDNConnector extends ConnectorLibrary
      * @param string $description
      * @return mixed
      */
-    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '', $created_by)
+    public function createStudent($name, $billKeyValue, $phone = '', $email = '', $description = '', $branch_code = '')
     {
-        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description, $branch_code, $created_by);
+        $this->appendStudentData($name, $billKeyValue, $phone, $email, $description, $branch_code);
         $content = $this->studentsData[0];
         $this->studentsData = array();
 
@@ -151,7 +151,7 @@ class IDNConnector extends ConnectorLibrary
      * @param string $notes
      * @return $this
      */
-    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '', $branch_code = '', $created_by = '')
+    public function appendBillComponentData($billKey, $accountCode, $billComponentName, $amount, $expiryDate, $dueDate, $activeDate = '', $penaltyAmount  = 0, $notes = '', $branch_code = '')
     {
         $this->billComponentData[] = array(
             'bill_key'              => $billKey,
@@ -164,7 +164,7 @@ class IDNConnector extends ConnectorLibrary
             'penalty_amount'        => $penaltyAmount,
             'notes'                 => $notes,
             'branch_code'           => $branch_code,
-            'created_by'            => sprintf("%s(%s)", $created_by, $this->username),
+            'created_by'            => sprintf("(%s)", $this->username),
         );
 
         return $this;
