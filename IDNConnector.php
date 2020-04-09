@@ -340,12 +340,20 @@ class IDNConnector extends ConnectorLibrary
      */
     public function getStudentBills($nis, $query = array())
     {
-        $query['bill_key'] = $nis;
-
-        return $this->curlExec(
+        $query['bill_key']  = $nis;
+        $result             = $this->curlExec(
             Constants::GET_METHOD,
             $this->buildApiURI($this->username, $this->password, 'bill_component/search/bill', $query, $this->env),
             '');
+
+        foreach ($result["data"] as $key => $val) {
+            if (in_array($val["state"], array("paid", "reconciled", "pending_disburse", "disburse_in_progress", "cleared",))) {
+                $val["state"] = "paid";
+            }
+            $result["data"][$key] = $val;
+        }
+
+        return $result;
     }
 
     /**
@@ -357,9 +365,14 @@ class IDNConnector extends ConnectorLibrary
      */
     public function getBillByID($id)
     {
-        return $this->curlExec(
+        $result = $this->curlExec(
             Constants::GET_METHOD,
             $this->buildApiURI($this->username, $this->password, 'bill_component/get/' . $id, array(), $this->env),
             '');
+        if (in_array($result["data"]["state"], array("paid", "reconciled", "pending_disburse", "disburse_in_progress", "cleared",))) {
+            $result["data"]["state"] = "paid";
+        }
+
+        return $result;
     }
 }
